@@ -14,6 +14,7 @@ links = get_links()
 rows = []
 for link in links:
     response = requests.get(link);
+
     soup  = bs4.BeautifulSoup(response.text)
     str = soup.select('div#description')
     str = str[0].text
