@@ -1,6 +1,11 @@
 import bs4
 import re
 import requests
+import csv
+import scipy
+import numpy
+from scipy.stats.stats import pearsonr
+from flask import render_template
 
 from flask import Flask
 app = Flask(__name__)
@@ -20,7 +25,26 @@ def extract_nutrients(response):
     return nutrients
 
 def nutrient_values_list(nutrients):
-    return [re.findall('\d*\.?\d', nutrient)[0] for nutrient in nutrients]
+    return [float(re.findall('\d*\.?\d', nutrient)[0]) for nutrient in nutrients]
+
+
+def get_related(current):
+    # current = [487.0, 40.0, 43.0, 5.0, 17.5, 4.0, 12.0, 0.9]
+    with open('nutrients.csv') as csvfile:
+        reader = csv.reader(csvfile)
+        headers = reader.next()
+
+        results = []
+
+        for row in reader:
+            link = row.pop(0)
+            title = row.pop(0)
+
+            if len(row) == 8:
+                vals = [float(v) for v in row]
+                correl = scipy.stats.pearsonr(current, vals)[0]
+                results.append([link, title, correl])
+    return results
 
 @app.route('/page/<page>')
 def show_user_profile(page):
@@ -31,10 +55,17 @@ def show_user_profile(page):
     nutrients = extract_nutrients(response)
 
     nutrient_vals = nutrient_values_list(nutrients)
+    results =  get_related(nutrient_vals)
 
-    print nutrient_vals
+    results.sort(key = lambda x: x[2], reverse=True)
 
-    return insert_into_description(response.text, nutrient_vals)
+    if results[0][2] == 1:
+        results.pop(0)
+
+    top_results = results[:3]
+
+    top_results = render_template('link.html', links=top_results)
+    return insert_into_description(response.text, top_results)
 
 if __name__ == '__main__':
     app.debug = True

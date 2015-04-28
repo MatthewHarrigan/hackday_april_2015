@@ -16,6 +16,7 @@ for link in links:
     response = requests.get(link);
 
     soup  = bs4.BeautifulSoup(response.text)
+
     str = soup.select('div#description')
     str = str[0].text
     num = '(\d*\.?\dg* kcal|\d*\.?\dg* protein|\d*\.?\dg* carbohydrate|\d*\.?\dg* fat|\d*\.?\dg* sugars|\d*\.?\dg* saturates|\d*\.?\dg* fibre|\d*\.?\dg* salt)'
@@ -27,12 +28,13 @@ for link in links:
     nutrients_list = [re.findall('\d*\.?\d', nutrient)[0] for nutrient in nutrients ]
 
     # Insert link name at the start
-    nutrients_list.insert(0, link)
+    nutrients_list.insert(0, link.split("/")[5])
+    nutrients_list.insert(1, soup.h1.text)
 
     rows.append(nutrients_list)
     print nutrients_list
 
-headers = ['link', 'kcal', 'protein', 'carbohydrates', 'sugars', 'fat', 'saturates', 'fibre', 'salt']
+headers = ['link', 'title', 'kcal', 'protein', 'carbohydrates', 'sugars', 'fat', 'saturates', 'fibre', 'salt']
 
 with open('nutrients.csv','w') as f:
     f_csv = csv.writer(f)
