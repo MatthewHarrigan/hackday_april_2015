@@ -12,8 +12,13 @@ app = Flask(__name__)
 
 def insert_into_description(text, insert):
     tag = '<div id="description" class="module padded summary">'
-
     replaced = re.sub(tag, tag + str(insert), text)
+    return replaced
+
+def remove_cookies_banner(text):
+    tag = '<div id="bbccookies"'
+    replace = '<div '
+    replaced = re.sub(tag, replace, text)
     return replaced
 
 def extract_nutrients(response):
@@ -26,7 +31,6 @@ def extract_nutrients(response):
 
 def nutrient_values_list(nutrients):
     return [float(re.findall('\d*\.?\d', nutrient)[0]) for nutrient in nutrients]
-
 
 def get_related(current):
     # current = [487.0, 40.0, 43.0, 5.0, 17.5, 4.0, 12.0, 0.9]
@@ -52,6 +56,8 @@ def show_user_profile(page):
     link = 'http://www.bbc.co.uk/food/recipes/%s' % page
     response = requests.get(link)
 
+    # response = remove_cookies_banner(response)
+
     nutrients = extract_nutrients(response)
 
     nutrient_vals = nutrient_values_list(nutrients)
@@ -62,7 +68,8 @@ def show_user_profile(page):
     if results[0][2] == 1:
         results.pop(0)
 
-    top_results = results[:3]
+    # top_results = results[:20]
+    top_results = results
 
     top_results = render_template('link.html', links=top_results)
     return insert_into_description(response.text, top_results)

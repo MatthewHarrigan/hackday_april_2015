@@ -29,8 +29,9 @@ for link in links:
 
     # Insert link name at the start
     nutrients_list.insert(0, link.split("/")[5])
-    nutrients_list.insert(1, soup.h1.text)
+    nutrients_list.insert(1, soup.h1.text.encode('ascii', errors='backslashreplace'))
 
+# encode(formatter=None)
     rows.append(nutrients_list)
     print nutrients_list
 
