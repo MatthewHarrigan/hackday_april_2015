@@ -7,17 +7,11 @@ app = Flask(__name__)
 
 def insert_in_page(text):
     tag = '<div id="description" class="module padded summary">'
-    replace = 'HELLO'
+    replace = '<strong>HELLO Matthew</strong>'
 
     replaced = re.sub(tag, tag + replace, text)
     return replaced
 
-    # soup  = bs4.BeautifulSoup(text)
-    # str = soup.find('div', attrs={'id':'description'})
-    # str.clear()
-    # str.insert(1, "but did not endorse ")
-    # str.string = 'hello'
-    # print str.
 
 @app.route('/page/<page>')
 def show_user_profile(page):
@@ -28,6 +22,6 @@ def show_user_profile(page):
     return insert_in_page(response.text)
 
 if __name__ == '__main__':
-    app.run()
     app.debug = True
+    app.run()
 
