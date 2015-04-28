@@ -1,5 +1,153 @@
-<h2>You might like</h2>
+<h2>Nutritionally similar recipes</h2>
 
 {% for link in links %}
 <li><a href="/page/{{ link[0] }}">{{ link[1] }}</a></li>
 {% endfor %}
+
+
+<style>
+    .charts {
+        padding: 10px 0;
+    }
+    .chart {
+        position: relative;
+        display: inline-block;
+        width: 50px;
+        height: 50px;
+        margin-right: 9px;
+        text-align: center;
+        font-size: 12px;
+        line-height: 13px;
+        color: #666;
+        text-transform: uppercase;
+    }
+    .label {
+        margin-top: 13px;
+        display: block;
+    }
+    .chart canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+    .percent {
+        display: inline-block;
+        z-index: 2;
+    }
+    .percent:after {
+        content: '%';
+        margin-left: 0.1em;
+        font-size: .8em;
+    }
+</style>
+
+<!-- Ryan's stuff
+
+GDAs (women)
+
+Calories		2,000 kcal
+Protein			45 g
+Carbohydrate	230 g
+Sugars			90 g
+Fat				70 g
+Saturates		20 g
+Fibre  			24 g
+Salt			6 g
+
+-->
+
+
+<div class="charts">
+	<span class="chart" data-percent="{{(kcal/2000) * 100}}">
+		<span class="label">Cal</span>
+		<span>{{kcal}}</span>
+	</span>
+	<span class="chart" data-percent="{{(protein/45) * 100}}">
+		<span class="label">Pro</span>
+		<span class="percent">{{(protein/45 * 100)|round(1, 'floor')}}</span>
+	</span>
+	<span class="chart" data-percent="{{(carbohydrates/230) * 100}}">
+		<span class="label">Carb</span>
+		<span class="percent">{{(carbohydrates/230 * 100)|round(1, 'floor')}}</span>
+	</span>
+	<span class="chart" data-percent="{{(sugar/230) * 100}}">
+		<span class="label">Sug</span>
+		<span class="percent">{{(sugar/90 * 100)|round(1, 'floor')}}</span>
+	</span>
+	<span class="chart" data-percent="{{(fat/70) * 100}}">
+		<span class="label">Fat</span>
+		<span class="percent">{{(fat/70 * 100)|round(1, 'floor')}}</span>
+	</span>
+    <!-- Doesn't fit
+    <span class="chart" data-percent="20">
+        <span class="label">Sat</span>
+        <span class="percent"></span>
+    </span>		-->
+	<span class="chart" data-percent="{{(fibre/24) * 100}}">
+		<span class="label">Fib</span>
+		<span class="percent">{{(fibre/24 * 100)|round(1, 'floor')}}</span>
+	</span>
+	<span class="chart" data-percent="{{(salt/6) * 100}}">
+		<span class="label">Salt</span>
+		<span class="percent">{{(salt/6 * 100)|round(1, 'ceil')}}</span>
+	</span>
+</div>
+
+
+Each serving contains
+*% reference intake of an average adult (8400 kj/2000 kcal)
+
+Reference intakes:
+Calories		2,000 kcal
+Protein			45 g
+Carbohydrate	230 g
+Sugars			90 g
+Fat				70 g
+Saturates		20 g
+Fibre  			24 g
+Salt			6 g
+
+<!-- End -->
+
+
+<script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+<!--<script src="static/jquery.easypiechart.js" type="text/javascript"></script>-->
+
+{% assets "js_all" %}
+<script type="text/javascript" src="{{ ASSET_URL }}"></script>
+{% endassets %}
+
+<script>
+
+//    console.log($('.chart').easyPieChart())
+//    $(function() {
+        $('.chart').easyPieChart({
+            easing: 'easeOut',
+            size: '50',
+            scaleColor: false,
+            trackColor: '#eee',
+            barColor: function (val) {
+                var colour;
+                if (val < 25) {
+                    colour = '#69c023'
+                } else if (val < 40) {
+                    colour =  'orange'
+                } else {
+                    colour =  'red'
+                }
+                this.el.querySelectorAll('span')[1].style.color = colour
+                return colour;
+            },
+            onStep: function(from, to, percent) {
+                // $(this.el).find('.percent').text(Math.round(percent));
+//                $(this.el).find('.percent').text(Math.round(percent));
+            }
+
+
+        });
+//    });
+</script>
+
+
+
+

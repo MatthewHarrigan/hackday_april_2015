@@ -8,7 +8,15 @@ from scipy.stats.stats import pearsonr
 from flask import render_template
 
 from flask import Flask
+from flask.ext.assets import Environment, Bundle
+
 app = Flask(__name__)
+
+assets = Environment(app)
+
+js = Bundle('jquery.easypiechart.js')
+assets.register('js_all', js)
+
 
 def insert_into_description(text, insert):
     tag = '<div id="description" class="module padded summary">'
@@ -17,7 +25,7 @@ def insert_into_description(text, insert):
 
 def remove_cookies_banner(text):
     tag = '<div id="bbccookies"'
-    replace = '<div '
+    replace = '<div style="display:none"'
     replaced = re.sub(tag, replace, text)
     return replaced
 
@@ -56,23 +64,35 @@ def show_user_profile(page):
     link = 'http://www.bbc.co.uk/food/recipes/%s' % page
     response = requests.get(link)
 
-    # response = remove_cookies_banner(response)
-
     nutrients = extract_nutrients(response)
 
     nutrient_vals = nutrient_values_list(nutrients)
-    results =  get_related(nutrient_vals)
+    results = get_related(nutrient_vals)
 
     results.sort(key = lambda x: x[2], reverse=True)
 
     if results[0][2] == 1:
         results.pop(0)
 
-    # top_results = results[:20]
+    # top_results = results[:10]
     top_results = results
 
-    top_results = render_template('link.html', links=top_results)
-    return insert_into_description(response.text, top_results)
+    res = render_template(
+        'link.html',
+        links = top_results,
+        kcal = nutrient_vals[0],
+        protein = nutrient_vals[1],
+        carbohydrates = nutrient_vals[2],
+        sugar = nutrient_vals[3],
+        fat = nutrient_vals[4],
+        saturates = nutrient_vals[5],
+        fibre = nutrient_vals[6],
+        salt = nutrient_vals[7]
+    )
+
+    response = remove_cookies_banner(response.text)
+
+    return insert_into_description(response, res)
 
 if __name__ == '__main__':
     app.debug = True
