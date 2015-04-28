@@ -1,7 +1,7 @@
-import requests
 import bs4
-import re
 import csv
+import re
+import requests
 
 # set tabstop=8 softtabstop=0 expandtab shiftwidth=4 smarttab 
 
