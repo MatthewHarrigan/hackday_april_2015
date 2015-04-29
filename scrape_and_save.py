@@ -13,7 +13,7 @@ def get_links():
 links = get_links()
 rows = []
 for link in links:
-    response = requests.get(link);
+    response = requests.get(link)
 
     soup  = bs4.BeautifulSoup(response.text)
 
@@ -29,7 +29,7 @@ for link in links:
 
     # Insert link name at the start
     nutrients_list.insert(0, link.split("/")[5])
-    nutrients_list.insert(1, soup.h1.text.encode('ascii', errors='backslashreplace'))
+    nutrients_list.insert(1, soup.h1.text.encode('ascii', errors='backslashreplace') + " (%s)" % nutrients[0])
 
 # encode(formatter=None)
     rows.append(nutrients_list)

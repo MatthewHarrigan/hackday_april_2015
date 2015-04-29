@@ -1,3 +1,6 @@
+# Dataset is too small
+# The results aren't statistically significant
+
 import bs4
 import re
 import requests
@@ -16,7 +19,6 @@ assets = Environment(app)
 
 js = Bundle('jquery.easypiechart.js')
 assets.register('js_all', js)
-
 
 def insert_into_description(text, insert):
     tag = '<div id="description" class="module padded summary">'
@@ -56,6 +58,7 @@ def get_related(current):
                 vals = [float(v) for v in row]
                 correl = scipy.stats.pearsonr(current, vals)[0]
                 results.append([link, title, correl])
+
     return results
 
 @app.route('/page/<page>')
@@ -74,12 +77,17 @@ def show_user_profile(page):
     if results[0][2] == 1:
         results.pop(0)
 
-    # top_results = results[:10]
-    top_results = results
+    top_results = results[:5]
+    # bottom_results = results
+    #
+    bottom_results = results[-5:]
+    bottom_results.sort(key = lambda x: x[2])
 
     res = render_template(
         'link.html',
-        links = top_results,
+        most_links = top_results,
+        least_links = bottom_results,
+        full_links = results,
         kcal = nutrient_vals[0],
         protein = nutrient_vals[1],
         carbohydrates = nutrient_vals[2],

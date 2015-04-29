@@ -1,9 +1,3 @@
-<h2>Nutritionally similar recipes</h2>
-
-{% for link in links %}
-<li><a href="/page/{{ link[0] }}">{{ link[1] }}</a></li>
-{% endfor %}
-
 
 <style>
     .charts {
@@ -55,28 +49,30 @@ Fibre  			24 g
 Salt			6 g
 
 -->
-
+<p>
+Each serving contains*
+</p>
 
 <div class="charts">
 	<span class="chart" data-percent="{{(kcal/2000) * 100}}">
 		<span class="label">Cal</span>
-		<span>{{kcal}}</span>
+		<span>{{kcal|int}}</span>
 	</span>
 	<span class="chart" data-percent="{{(protein/45) * 100}}">
 		<span class="label">Pro</span>
-		<span class="percent">{{(protein/45 * 100)|round(1, 'floor')}}</span>
+		<span class="percent">{{(protein/45 * 100)|round(1, 'floor')|int}}</span>
 	</span>
 	<span class="chart" data-percent="{{(carbohydrates/230) * 100}}">
 		<span class="label">Carb</span>
-		<span class="percent">{{(carbohydrates/230 * 100)|round(1, 'floor')}}</span>
+		<span class="percent">{{(carbohydrates/230 * 100)|round(1, 'floor')|int}}</span>
 	</span>
 	<span class="chart" data-percent="{{(sugar/230) * 100}}">
 		<span class="label">Sug</span>
-		<span class="percent">{{(sugar/90 * 100)|round(1, 'floor')}}</span>
+		<span class="percent">{{(sugar/90 * 100)|round(1, 'floor')|int}}</span>
 	</span>
 	<span class="chart" data-percent="{{(fat/70) * 100}}">
 		<span class="label">Fat</span>
-		<span class="percent">{{(fat/70 * 100)|round(1, 'floor')}}</span>
+		<span class="percent">{{(fat/70 * 100)|round(1, 'floor')|int}}</span>
 	</span>
     <!-- Doesn't fit
     <span class="chart" data-percent="20">
@@ -85,27 +81,29 @@ Salt			6 g
     </span>		-->
 	<span class="chart" data-percent="{{(fibre/24) * 100}}">
 		<span class="label">Fib</span>
-		<span class="percent">{{(fibre/24 * 100)|round(1, 'floor')}}</span>
+		<span class="percent">{{(fibre/24 * 100)|round(1, 'floor')|int}}</span>
 	</span>
 	<span class="chart" data-percent="{{(salt/6) * 100}}">
 		<span class="label">Salt</span>
-		<span class="percent">{{(salt/6 * 100)|round(1, 'ceil')}}</span>
+		<span class="percent">{{(salt/6 * 100)|round(1, 'ceil')|int}}</span>
 	</span>
 </div>
 
+<p>
+    *% reference intake of an average adult (8400 kj/2000 kcal)
+</p>
+<p>
+    Reference intakes:
+    Calories		2,000 kcal
+    Protein			45 g
+    Carbohydrate	230 g
+    Sugars			90 g
+    Fat				70 g
+    Saturates		20 g
+    Fibre  			24 g
+    Salt			6 g
+</p>
 
-Each serving contains
-*% reference intake of an average adult (8400 kj/2000 kcal)
-
-Reference intakes:
-Calories		2,000 kcal
-Protein			45 g
-Carbohydrate	230 g
-Sugars			90 g
-Fat				70 g
-Saturates		20 g
-Fibre  			24 g
-Salt			6 g
 
 <!-- End -->
 
@@ -148,6 +146,24 @@ Salt			6 g
 //    });
 </script>
 
+<br />
+<h2>Most nutritionally similar recipes</h2>
 
+{% for link in most_links %}
+<li><a href="/page/{{ link[0] }}">{{ link[1] }}</a></li>
+{% endfor %}
+<br />
 
+<h2>Least nutritionally similar recipes</h2>
+
+{% for link in least_links %}
+<li><a href="/page/{{ link[0] }}">{{ link[1] }}</a></li>
+{% endfor %}
+
+<br />
+
+<h2>Full links</h2>
+{% for link in full_links %}
+<li><a href="/page/{{ link[0] }}">{{ link[1] }} <strong>{{ link[2] }}</strong></a></li>
+{% endfor %}
 
