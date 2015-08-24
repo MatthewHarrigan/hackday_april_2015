@@ -15,13 +15,16 @@ For this demo we use Google to look for Food pages containing nutritional info. 
 ## Installation
 
 Install venv 
-Install flask http://flask.pocoo.org/docs/0.10/installation/
+http://docs.python-guide.org/en/latest/dev/virtualenvs/
 
-Activate
-. venv/bin/activate
+Activate venv
+'. venv/bin/activate'
+
+Install dependencies
+'pip install -r requirements.txt'
 
 Run the server
-python server.py
+'python server.py'
 
 Visit a recipe page i.e:
 http://127.0.0.1:5000/page/black_bean_and_avocado_32747
