@@ -18,13 +18,13 @@ Install venv
 http://docs.python-guide.org/en/latest/dev/virtualenvs/
 
 Activate venv
-'. venv/bin/activate'
+  . venv/bin/activate
 
 Install dependencies
-'pip install -r requirements.txt'
+  'pip install -r requirements.txt  
 
 Run the server
-'python server.py'
+  'python server.py
 
 Visit a recipe page i.e:
 http://127.0.0.1:5000/page/black_bean_and_avocado_32747
