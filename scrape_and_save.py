@@ -35,7 +35,8 @@ for link in links:
     rows.append(nutrients_list)
     print nutrients_list
 
-headers = ['link', 'title', 'kcal', 'protein', 'carbohydrates', 'sugars', 'fat', 'saturates', 'fibre', 'salt']
+headers = ['link', 'title', 'kcal', 'protein', 'carbohydrates', 'sugars',
+'fat', 'saturates', 'fibre', 'salt','healthIndicator', 'healthIndicatorVerb']
 
 with open('nutrients.csv','w') as f:
     f_csv = csv.writer(f)

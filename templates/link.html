@@ -54,6 +54,8 @@ Each serving contains*
 </p>
 
 <div class="charts">
+
+
 	<span class="chart" data-percent="{{(kcal/2000) * 100}}">
 		<span class="label">Cal</span>
 		<span>{{kcal|int}}</span>
@@ -165,4 +167,3 @@ Each serving contains*
 {% for link in full_links %}
 <li><a href="/page/{{ link[0] }}">{{ link[1] }} <strong>{{ link[2] }}</strong></a></li>
 {% endfor %}
-
