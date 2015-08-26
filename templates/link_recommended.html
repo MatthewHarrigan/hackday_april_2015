@@ -1,0 +1,72 @@
+<body bgcolor="#ffffe0">
+<style>
+    .charts {
+        padding: 10px 0;
+    }
+    .chart {
+        position: relative;
+        display: inline-block;
+        width: 50px;
+        height: 50px;
+        margin-right: 9px;
+        text-align: center;
+        font-size: 12px;
+        line-height: 13px;
+        color: #666;
+        text-transform: uppercase;
+    }
+    .label {
+        margin-top: 13px;
+        display: block;
+    }
+    .chart canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+    .percent {
+        display: inline-block;
+        z-index: 2;
+    }
+    .percent:after {
+        content: '%';
+        margin-left: 0.1em;
+        font-size: .8em;
+    }
+</style>
+
+<!-- Ryan's stuff
+
+GDAs (women)
+
+Calories		2,000 kcal
+Protein			45 g
+Carbohydrate	230 g
+Sugars			90 g
+Fat				70 g
+Saturates		20 g
+Fibre  			24 g
+Salt			6 g
+
+-->
+<!-- End -->
+
+
+<script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+<!--<script src="static/jquery.easypiechart.js" type="text/javascript"></script>-->
+
+{% assets "js_all" %}
+<script type="text/javascript" src="{{ ASSET_URL }}"></script>
+{% endassets %}
+
+<br />
+<h2>Recommended recipes</h2>
+
+{% for link in recommended_links %}
+<li><font size="4px" family="arial"><a href="/page/{{ link[0] }}">{{ link[1] }}</a></font></li><br>
+{% endfor %}
+<br />
+
+</body>
+
+
